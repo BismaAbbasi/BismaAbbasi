@@ -321,6 +321,11 @@ export default function Home() {
                 style={{ background: "hsl(240 5% 10%)" }}>
                 <Mail className="w-4 h-4" /> Hire Me
               </a>
+              <a href="/resume" data-testid="btn-resume"
+                className="font-syne font-medium text-sm px-6 py-3 flex items-center gap-2 rounded-sm border border-border text-muted-foreground hover:text-foreground transition-all duration-300"
+                style={{ background: "hsl(240 5% 10%)" }}>
+                <ArrowUpRight className="w-4 h-4" /> Resume
+              </a>
             </motion.div>
 
             {/* Stats */}
