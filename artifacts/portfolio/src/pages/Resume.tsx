@@ -1,11 +1,32 @@
-import React from "react";
-import { Printer, ArrowLeft } from "lucide-react";
+import React, { useState } from "react";
+import { Printer, ArrowLeft, Download } from "lucide-react";
+import { pdf } from "@react-pdf/renderer";
+import { ResumeDocument } from "./ResumePDF";
 
 const ACCENT = "#0d9488";
 const LINE   = "#d1d5db";
 const GRAY   = "#444444";
 
 export default function Resume() {
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    setDownloading(true);
+    try {
+      const blob = await pdf(<ResumeDocument />).toBlob();
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement("a");
+      a.href     = url;
+      a.download = "Bisma_Abbasi_Resume.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <>
       {/* ── Screen toolbar (hidden when printing) ─────── */}
@@ -14,10 +35,22 @@ export default function Resume() {
           <ArrowLeft className="w-4 h-4" /> Back to Portfolio
         </a>
         <div className="flex items-center gap-3">
-          <span className="text-xs text-zinc-500">Ctrl+P → Save as PDF</span>
+          {/* PDF download */}
+          <button
+            onClick={handleDownload}
+            disabled={downloading}
+            className="flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white rounded-sm transition-opacity disabled:opacity-60"
+            style={{ background: ACCENT }}
+          >
+            <Download className="w-4 h-4" />
+            {downloading ? "Generating…" : "Download PDF"}
+          </button>
+
+          <span className="text-xs text-zinc-600">or</span>
+
           <button onClick={() => window.print()}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-sm"
-            style={{ background: ACCENT }}>
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-300 rounded-sm border border-zinc-700 hover:border-zinc-500 transition-colors"
+            style={{ background: "transparent" }}>
             <Printer className="w-4 h-4" /> Print / Save PDF
           </button>
         </div>
