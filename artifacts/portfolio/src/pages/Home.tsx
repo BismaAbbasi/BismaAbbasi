@@ -716,7 +716,6 @@ export default function Home() {
                 {[
                   { href: "https://github.com/BismaAbbasi", label: "GitHub", Icon: Github, color: C.teal },
                   { href: "https://linkedin.com/in/bisma-abbasi-softwareengineer", label: "LinkedIn", Icon: Linkedin, color: C.blue },
-                  { href: "https://bisma-abbasi-software-engineer-port.vercel.app", label: "Old Portfolio", Icon: ExternalLink, color: C.purple },
                 ].map(link => (
                   <a key={link.label} href={link.href} target="_blank" rel="noreferrer"
                     data-testid={`link-${link.label.toLowerCase().replace(/\s/g, "-")}`}
