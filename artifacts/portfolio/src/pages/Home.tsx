@@ -10,7 +10,7 @@ import {
   Code2, Cpu, Server, Lock,
   ExternalLink, Github, Linkedin, Mail,
   GraduationCap, Award, Briefcase, ArrowUpRight, Sparkles, Zap, Globe,
-  MapPin, CheckCircle,
+  MapPin, CheckCircle, Menu, X,
 } from "lucide-react";
 
 // ─── Color palette ───────────────────────────────────────────────────────────
@@ -162,7 +162,8 @@ const projects = [
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function Home() {
-  const [active, setActive] = useState("hero");
+  const [active, setActive]     = useState("hero");
+  const [menuOpen, setMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 180, damping: 35 });
 
@@ -174,6 +175,8 @@ export default function Home() {
         const el = document.getElementById(id);
         if (el && el.offsetTop <= y && el.offsetTop + el.offsetHeight > y) { setActive(id); break; }
       }
+      // close menu on scroll
+      setMenuOpen(false);
     };
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
@@ -194,6 +197,80 @@ export default function Home() {
       <motion.div style={{ scaleX, transformOrigin: "0%", position: "fixed", top: 0, left: 0, right: 0, height: "2px", zIndex: 100,
         background: `linear-gradient(90deg, ${C.teal}, ${C.blue}, ${C.purple})`,
         boxShadow: `0 0 10px ${C.teal}90` }} />
+
+      {/* ── Mobile hamburger button (hidden on sm+) ─── */}
+      <button
+        onClick={() => setMenuOpen(o => !o)}
+        className="sm:hidden fixed top-4 right-4 z-[90] w-10 h-10 flex items-center justify-center rounded-sm border border-border/60 bg-background/90 backdrop-blur-xl transition-colors"
+        aria-label="Toggle menu"
+      >
+        <motion.div key={menuOpen ? "x" : "menu"} initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} transition={{ duration: 0.18 }}>
+          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </motion.div>
+      </button>
+
+      {/* ── Mobile drawer ─────────────────────────────── */}
+      <motion.div
+        initial={false}
+        animate={{ x: menuOpen ? 0 : "-100%" }}
+        transition={{ type: "spring", stiffness: 320, damping: 32 }}
+        className="sm:hidden fixed top-0 left-0 h-screen w-72 z-[80] flex flex-col py-12 px-8 border-r border-border/40"
+        style={{ background: "hsl(240 6% 5%)", backdropFilter: "blur(24px)" }}
+      >
+        {/* Brand */}
+        <div className="mb-10">
+          <span className="font-syne font-bold text-base text-foreground/90">Bisma Abbasi</span>
+          <div className="flex items-center gap-1.5 mt-1">
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: C.teal }} />
+            <span className="font-jetmono text-[10px] text-muted-foreground">Open to work</span>
+          </div>
+        </div>
+
+        {/* Nav links */}
+        <div className="flex flex-col gap-1 flex-1">
+          {navItems.map(item => {
+            const isActive = active === item.id;
+            return (
+              <a key={item.id} href={`#${item.id}`} onClick={() => setMenuOpen(false)}
+                className="relative flex items-center gap-3 px-4 py-3 rounded-sm transition-all duration-300 group">
+                {isActive && (
+                  <motion.div layoutId="mob-nav-bar"
+                    className="absolute left-0 top-0 bottom-0 w-[2px] rounded-r-sm"
+                    style={{ background: item.color }}
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }} />
+                )}
+                <span className="font-syne text-sm font-medium transition-all duration-300"
+                  style={{ color: isActive ? item.color : "hsl(240 4% 50%)", textShadow: isActive ? `0 0 14px ${item.color}70` : "none" }}>
+                  {item.label}
+                </span>
+              </a>
+            );
+          })}
+        </div>
+
+        {/* Social */}
+        <div className="flex gap-5 pt-4 border-t border-border/30">
+          <a href="https://github.com/BismaAbbasi" target="_blank" rel="noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors">
+            <Github className="w-4 h-4" />
+          </a>
+          <a href="https://linkedin.com/in/bisma-abbasi-softwareengineer" target="_blank" rel="noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors">
+            <Linkedin className="w-4 h-4" />
+          </a>
+          <a href="mailto:engineerbismaabbasi@gmail.com"
+            className="text-muted-foreground hover:text-foreground transition-colors">
+            <Mail className="w-4 h-4" />
+          </a>
+        </div>
+      </motion.div>
+
+      {/* ── Mobile drawer backdrop ─────────────────────── */}
+      {menuOpen && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          className="sm:hidden fixed inset-0 z-[70] bg-black/60 backdrop-blur-sm"
+          onClick={() => setMenuOpen(false)} />
+      )}
 
       {/* ── Sidebar Nav ───────────────────────────────── */}
       <nav className="fixed top-0 left-0 h-screen w-14 md:w-52 border-r border-border/40 bg-background/90 backdrop-blur-xl z-50 hidden sm:flex flex-col py-10">
