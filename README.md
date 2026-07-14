@@ -2,7 +2,7 @@
 
 **SOFTWARE ENGINEER**
 
-Welcome to my GitHub! I'm a Software Engineer with a B.E. in Software Engineering (CGPA 3.70/4.00, graduating 2025) specializing in building production-ready backend systems and AI-powered applications. I'm passionate about designing scalable REST APIs, integrating LLM workflows, and shipping live applications.
+Welcome to my GitHub! I'm a Software Engineer with a B.E. in Software Engineering (CGPA 3.70/4.00, graduated 2025) specializing in building production-ready  systems and AI-powered applications. I'm passionate about designing scalable REST APIs, integrating LLM workflows, and shipping live applications.
 
 ---
 
