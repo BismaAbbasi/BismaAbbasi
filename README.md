@@ -128,7 +128,6 @@ I specialize in three core areas:
 ## 📬 Let's Connect
 
 - **Email**: engineerbismaabbasi@gmail.com
-- **Phone**: +92 318-3094477
 - **LinkedIn**: [linkedin.com/in/BismaAbbasi](https://www.linkedin.com/in/bisma-abbasi-softwareengineer/)
 - **Portfolio**: [bisma-abbasi](https://bisma-abbassi-portfolio.vercel.app/)
 - **GitHub**: [@BismaAbbasi](https://github.com/BismaAbbasi)
